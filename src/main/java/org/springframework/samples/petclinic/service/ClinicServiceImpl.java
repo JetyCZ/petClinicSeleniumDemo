@@ -25,7 +25,6 @@ import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.cache.annotation.CacheResult;
 import java.util.Collection;
 
 /**
@@ -95,7 +94,7 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     @Transactional(readOnly = true)
-    @CacheResult(cacheName = "vets")
+    /*@CacheResult(cacheName = "vets")*/
     public Collection<Vet> findVets() throws DataAccessException {
         return vetRepository.findAll();
     }
