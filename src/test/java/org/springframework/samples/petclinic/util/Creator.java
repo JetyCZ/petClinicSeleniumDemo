@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -58,16 +59,23 @@ public class Creator implements ApplicationContextAware {
                 try {
                     field.setAccessible(true);
                     Object propValue = FieldUtils.readField(field, entity);
-                    saveChildEntity(propValue);
-                    if ((propValue ==null) && (field.getDeclaredAnnotationsByType(NotEmpty.class).length>0)) {
-                        final String value;
-                        if (field.getName().equals("telephone")) {
-                            value = "0123456789";
+                    final boolean notEmptyField = fieldHasAnnotation(field, NotEmpty.class);
+                    boolean manyToOne = fieldHasAnnotation(field, ManyToOne.class);;
+                    if ((propValue ==null) && (notEmptyField || manyToOne)) {
+                        if (field.getType().isAssignableFrom(String.class)) {
+
+                            if (field.getName().equals("telephone")) {
+                                propValue = "0123456789";
+                            } else {
+                                propValue = "Test " + field.getName();
+                            }
                         } else {
-                            value = "Test " + field.getName();
+                            propValue = field.getType().newInstance();
                         }
-                        PropertyUtils.setProperty(entity, field.getName(), value);
+                        PropertyUtils.setProperty(entity, field.getName(), propValue);
+
                     }
+                    saveChildEntity(propValue);
                 } catch (IllegalAccessException e) {
                     log.info("Skipping " + field.getName() + ", as it is probably private");
                 }
@@ -91,6 +99,10 @@ public class Creator implements ApplicationContextAware {
 
     }
 
+    private boolean fieldHasAnnotation(Field field, Class annotationClass) {
+        return field.getDeclaredAnnotationsByType(annotationClass).length > 0;
+    }
+
     private boolean isNamedEntity(Object entity) {
         return entity instanceof NamedEntity;
     }
@@ -103,7 +115,7 @@ public class Creator implements ApplicationContextAware {
     private void saveChildEntity(Object propValue) {
         if (propValue!=null)  {
             Class<?> valueClass = propValue.getClass();
-            final boolean isEntity = valueClass.getDeclaredAnnotationsByType(Entity.class).length > 0;
+            final boolean isEntity = isEntity(valueClass);
             if ((isEntity)) {
 
                 save(propValue);
@@ -114,6 +126,10 @@ public class Creator implements ApplicationContextAware {
                 jpaRepository.save(propValue);
             }
         }
+    }
+
+    private boolean isEntity(Class<?> valueClass) {
+        return valueClass.getDeclaredAnnotationsByType(Entity.class).length > 0;
     }
 
 
