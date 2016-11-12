@@ -62,16 +62,16 @@ public class ClinicServiceTestsDataFactory {
 
     @Test
     public void shouldFindVisitsByPetId() throws Exception {
-        Pet pet = creator.save(new Pet());
-        creator.save(new Visit(pet: pet));
-        creator.save(new Visit(pet: pet));
+        Visit visit1 = creator.save(new Visit());
+        creator.save(new Visit(pet: visit1.pet));
 
-        Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.id);
+        def petId = visit1.pet.id
+        Collection<Visit> visits = this.clinicService.findVisitsByPetId(petId);
         assertThat(visits.size()).isEqualTo(2);
         Visit[] visitArr = visits.toArray(new Visit[visits.size()]);
         assertThat(visitArr[0].getPet()).isNotNull();
         assertThat(visitArr[0].getDate()).isNotNull();
-        assertThat(visitArr[0].getPet().getId()).isEqualTo(pet.id);
+        assertThat(visitArr[0].getPet().getId()).isEqualTo(petId);
     }
 
 
