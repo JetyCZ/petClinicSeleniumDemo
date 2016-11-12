@@ -65,7 +65,7 @@
     <dependency>
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
-      <scope>runtime</scope>
+      <!--<scope>runtime</scope>-->
     </dependency>
 
     <!-- EhCache -->
@@ -105,6 +105,21 @@
       <artifactId>spring-boot-devtools</artifactId>
       <scope>runtime</scope>
     </dependency>
+
+      <dependency>
+          <groupId>org.seleniumhq.selenium</groupId>
+          <artifactId>selenium-java</artifactId>
+          <version>2.53.0</version>
+          <scope>test</scope>
+      </dependency>
+
+
+      <!--<dependency>
+          <groupId>org.postgresql</groupId>
+          <artifactId>postgresql</artifactId>
+          <version>9.3-1102-jdbc41</version>
+      </dependency>-->
+
   </dependencies>
 
   <build>
@@ -114,7 +129,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <executions>
           <execution>
-            <!-- Spring Boot Actuator displays build-related information 
+            <!-- Spring Boot Actuator displays build-related information
               if a META-INF/build-info.properties file is present -->
             <goals>
               <goal>build-info</goal>
@@ -147,7 +162,7 @@
         </executions>
       </plugin>
 
-      <!-- Spring Boot Actuator displays build-related information if a git.properties 
+      <!-- Spring Boot Actuator displays build-related information if a git.properties
         file is present at the classpath -->
       <plugin>
         <groupId>pl.project13.maven</groupId>
@@ -169,9 +184,9 @@
       </plugin>
 
       <plugin>
-        <!-- right now lesscss maven plugin does NOT support @Import from 
-          classpath https://github.com/marceloverdijk/lesscss-maven-plugin/issues/72 
-          workaround here will be unpacking the bootstrap on-the-fly remove this plugin 
+        <!-- right now lesscss maven plugin does NOT support @Import from
+          classpath https://github.com/marceloverdijk/lesscss-maven-plugin/issues/72
+          workaround here will be unpacking the bootstrap on-the-fly remove this plugin
           config when the issue is resolved OR a better resolution is found -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
