@@ -4,6 +4,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -46,14 +47,30 @@ public class Creator implements ApplicationContextAware {
         repositories.put(Visit.class, visitRepository);
     }
 
+    public void save(Object... entities) {
+        for (Object entity : entities) {
+            save(entity);
+        }
+    }
+
     public void save(Object entity) {
         try {
             Map props = PropertyUtils.describe(entity);
             List<Field> allFields = FieldUtils.getAllFieldsList(entity.getClass());
             for (Field field : allFields) {
                 try {
+                    field.setAccessible(true);
                     Object propValue = FieldUtils.readField(field, entity);
                     saveChildEntity(propValue);
+                    if ((propValue ==null) && (field.getDeclaredAnnotationsByType(NotEmpty.class).length>0)) {
+                        final String value;
+                        if (field.getName().equals("telephone")) {
+                            value = "0123456789";
+                        } else {
+                            value = "Test " + field.getName();
+                        }
+                        PropertyUtils.setProperty(entity, field.getName(), value);
+                    }
                 } catch (IllegalAccessException e) {
                     log.info("Skipping " + field.getName() + ", as it is probably private");
                 }
@@ -98,3 +115,5 @@ public class Creator implements ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 }
+
+

@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.service;
+package net.jetensky.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.PetClinicApplication;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.service.ClinicService;
+import org.springframework.samples.petclinic.util.Creator;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collection;
@@ -39,8 +41,14 @@ public class ClinicServiceTestsDataFactory {
     @Autowired
     protected ClinicService clinicService;
 
+    @Autowired
+    Creator creator;
+
     @Test
     public void shouldFindOwnersByLastName() {
+        creator.save(new Owner(lastName: "Davis"));
+        creator.save(new Owner(lastName: "Davis"));
+
         Collection<Owner> owners = this.clinicService.findOwnerByLastName("Davis");
         assertThat(owners.size()).isEqualTo(2);
 
