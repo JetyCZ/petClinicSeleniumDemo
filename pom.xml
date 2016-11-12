@@ -130,18 +130,6 @@
           <version>1.0-groovy-2.4</version>
           <scope>test</scope>
       </dependency>
-      <dependency>
-          <groupId>org.gebish</groupId>
-          <artifactId>geb-spock</artifactId>
-          <version>1.0</version>
-          <scope>test</scope>
-      </dependency>
-      <dependency>
-          <groupId>org.gebish</groupId>
-          <artifactId>geb-core</artifactId>
-          <version>1.0</version>
-          <scope>test</scope>
-      </dependency>
 
   </dependencies>
 
