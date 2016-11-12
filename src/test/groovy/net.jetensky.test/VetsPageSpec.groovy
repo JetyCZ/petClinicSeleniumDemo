@@ -1,4 +1,5 @@
 import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.springframework.samples.petclinic.PetClinicApplication
 import org.springframework.samples.petclinic.model.Vet
@@ -8,12 +9,14 @@ import spock.lang.Specification
 public class VetsPageSpec extends Specification{
 
     Creator creator
+    WebDriver driver
 
     void setup() {
         String[] a = []
         java.lang.System.setProperty("spring.devtools.restart.enabled", "false")
         PetClinicApplication.main(a)
         creator = PetClinicApplication.context.getBean(Creator)
+        driver = new ChromeDriver()
     }
 
     def "Vets page"() {
@@ -24,7 +27,7 @@ public class VetsPageSpec extends Specification{
                 new Vet(firstName: "Pavel", lastName: "Jetensky"),
                 new Vet()
         );
-        def driver = new ChromeDriver()
+
 
         when:
         driver.get("http://localhost:8080/vets.html")
@@ -34,5 +37,8 @@ public class VetsPageSpec extends Specification{
 
     }
 
-
+    void cleanup() {
+        driver.quit()
+        PetClinicApplication.context.close()
+    }
 }
