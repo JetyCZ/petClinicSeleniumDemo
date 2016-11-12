@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.model.*;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
@@ -53,7 +50,7 @@ public class Creator implements ApplicationContextAware {
         }
     }
 
-    public void save(Object entity) {
+    public Object save(Object entity) {
         try {
             Map props = PropertyUtils.describe(entity);
             List<Field> allFields = FieldUtils.getAllFieldsList(entity.getClass());
@@ -81,11 +78,21 @@ public class Creator implements ApplicationContextAware {
                 saveChildEntity(propValue);
             }
 
-            ( getDao(entity)).save(entity);
+            if (entity instanceof PetType || entity instanceof Specialty) {
+                // These do not have their
+                log.info("Ignoring named entity");
+            } else {
+                ( getDao(entity)).save(entity);
+            }
         } catch (Exception e) {
             throw new IllegalStateException("Problem", e);
         }
+        return entity;
 
+    }
+
+    private boolean isNamedEntity(Object entity) {
+        return entity instanceof NamedEntity;
     }
 
     private JpaRepository getDao(Object entity) {
@@ -96,11 +103,12 @@ public class Creator implements ApplicationContextAware {
     private void saveChildEntity(Object propValue) {
         if (propValue!=null)  {
             Class<?> valueClass = propValue.getClass();
-            if (valueClass.getDeclaredAnnotationsByType(Entity.class).length>0) {
+            final boolean isEntity = valueClass.getDeclaredAnnotationsByType(Entity.class).length > 0;
+            if ((isEntity)) {
 
                 save(propValue);
                 String className = propValue.getClass().getSimpleName();
-                String daoName = className.substring(0,1).toLowerCase() + className.substring(1) + "DAO";
+                String daoName = className.substring(0,1).toLowerCase() + className.substring(1) + "Repository";
 
                 JpaRepository jpaRepository = applicationContext.getBeansOfType(JpaRepository.class).get(daoName);
                 jpaRepository.save(propValue);
