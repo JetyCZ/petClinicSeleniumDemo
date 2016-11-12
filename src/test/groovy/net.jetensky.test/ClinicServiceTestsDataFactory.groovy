@@ -62,7 +62,7 @@ public class ClinicServiceTestsDataFactory {
 
     @Test
     public void shouldFindVisitsByPetId() throws Exception {
-        Pet pet = creator.save(new Pet(owner: new Owner()));
+        Pet pet = creator.save(new Pet());
         creator.save(new Visit(pet: pet));
         creator.save(new Visit(pet: pet));
 
