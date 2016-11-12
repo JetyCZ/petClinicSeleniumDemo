@@ -131,18 +131,17 @@
           <scope>test</scope>
       </dependency>
       <dependency>
-          <groupId>org.spockframework</groupId>
-          <artifactId>spock-spring</artifactId>
-          <version>1.0-groovy-2.4</version>
+          <groupId>org.gebish</groupId>
+          <artifactId>geb-spock</artifactId>
+          <version>1.0</version>
           <scope>test</scope>
       </dependency>
       <dependency>
-          <groupId>org.springframework.samples</groupId>
-          <artifactId>springboot-petclinic</artifactId>
-          <version>1.4.1</version>
+          <groupId>org.gebish</groupId>
+          <artifactId>geb-core</artifactId>
+          <version>1.0</version>
           <scope>test</scope>
       </dependency>
-
 
   </dependencies>
 
