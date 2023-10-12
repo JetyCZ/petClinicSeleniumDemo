@@ -26,13 +26,11 @@ class VetsPageSpec extends Specification{
 
     def "Vets page"() {
 
-        given: "I'm at the sign up form"
-
+        given:
         creator.save(
                 new Vet(firstName: "Pavel", lastName: "Jetensky"),
                 new Vet()
-        );
-
+        )
 
         when:
         driver.get("http://localhost:8080/vets.html")
