@@ -36,7 +36,9 @@ public class CacheConfig {
                             .heap(100, EntryUnit.ENTRIES))
                     .withExpiry(Expirations.timeToLiveExpiration(Duration.of(60, TimeUnit.SECONDS)))
                     .build();
-                cacheManager.createCache("vets", Eh107Configuration.fromEhcacheCacheConfiguration(config));
+                if (cacheManager.getCache("vets")==null) {
+                    cacheManager.createCache("vets", Eh107Configuration.fromEhcacheCacheConfiguration(config));
+                }
             }
         };
     }

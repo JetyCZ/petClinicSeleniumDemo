@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import spock.lang.Ignore;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,9 +34,11 @@ public class CrashControllerTests {
 
     @BeforeEach
     public void setup() {
+        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+        exceptionResolver.setDefaultErrorView("exception");
         this.mockMvc = MockMvcBuilders
             .standaloneSetup(crashController)
-            //.setHandlerExceptionResolvers(new SimpleMappingExceptionResolver())
+            .setHandlerExceptionResolvers(exceptionResolver)
             .build();
     }
 

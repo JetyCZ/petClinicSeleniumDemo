@@ -15,7 +15,7 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;

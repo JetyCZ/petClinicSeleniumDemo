@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.util;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.logging.Log;
@@ -59,7 +60,7 @@ public class Creator implements ApplicationContextAware {
                 try {
                     field.setAccessible(true);
                     Object propValue = FieldUtils.readField(field, entity);
-                    final boolean notEmptyField = fieldHasAnnotation(field, NotBlank.class);
+                    final boolean notEmptyField = fieldHasAnnotation(field, NotEmpty.class);
                     boolean manyToOne = fieldHasAnnotation(field, ManyToOne.class);;
                     if ((propValue ==null) && (notEmptyField || manyToOne)) {
                         if (field.getType().isAssignableFrom(String.class)) {
