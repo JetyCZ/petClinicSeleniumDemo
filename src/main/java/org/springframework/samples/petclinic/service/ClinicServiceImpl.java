@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.service;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.*;
@@ -59,7 +60,7 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     @Transactional(readOnly = true)
     public Owner findOwnerById(int id) throws DataAccessException {
-        return ownerRepository.findById(id);
+        return ownerRepository.findByIdWithPets(id);
     }
 
     @Override
@@ -83,7 +84,8 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     @Transactional(readOnly = true)
     public Pet findPetById(int id) throws DataAccessException {
-        return petRepository.findById(id);
+        Optional<Pet> byId = petRepository.findById(id);
+        return byId.orElse(null);
     }
 
     @Override

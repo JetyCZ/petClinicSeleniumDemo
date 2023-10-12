@@ -50,7 +50,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Integer> {
      * @return the {@link Owner} if found
      */
     @Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
-    Owner findById(@Param("id") Integer id);
+    Owner findByIdWithPets(@Param("id") Integer id);
 
 
 

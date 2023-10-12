@@ -41,13 +41,6 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
     @Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
     List<PetType> findPetTypes();
 
-    /**
-     * Retrieve a {@link Pet} from the data store by id.
-     * @param id the id to search for
-     * @return the {@link Pet} if found
-     */
-    Pet findById(Integer id);
-
 
 }
 

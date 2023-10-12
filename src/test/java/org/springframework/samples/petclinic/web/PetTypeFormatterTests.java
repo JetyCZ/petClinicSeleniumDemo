@@ -1,25 +1,28 @@
 package org.springframework.samples.petclinic.web;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.ClinicService;
 
 import java.text.ParseException;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test class for {@link PetTypeFormatter}
  *
  * @author Colin But
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PetTypeFormatterTests {
 
     @Mock
@@ -27,13 +30,13 @@ public class PetTypeFormatterTests {
 
     private PetTypeFormatter petTypeFormatter;
 
-    @Before
+    @BeforeEach
     public void setup() {
         petTypeFormatter = new PetTypeFormatter(clinicService);
     }
 
     @Test
-    public void testPrint() {
+    void testPrint() {
         PetType petType = new PetType();
         petType.setName("Hamster");
         String petTypeName = petTypeFormatter.print(petType, Locale.ENGLISH);
@@ -41,16 +44,18 @@ public class PetTypeFormatterTests {
     }
 
     @Test
-    public void shouldParse() throws ParseException {
+    void shouldParse() throws ParseException {
         Mockito.when(clinicService.findPetTypes()).thenReturn(makePetTypes());
         PetType petType = petTypeFormatter.parse("Bird", Locale.ENGLISH);
         assertEquals("Bird", petType.getName());
     }
 
-    @Test(expected = ParseException.class)
-    public void shouldThrowParseException() throws ParseException {
-        Mockito.when(clinicService.findPetTypes()).thenReturn(makePetTypes());
-        petTypeFormatter.parse("Fish", Locale.ENGLISH);
+    @Test
+    void shouldThrowParseException() throws ParseException {
+        assertThrows(ParseException.class, () -> {
+            Mockito.when(clinicService.findPetTypes()).thenReturn(makePetTypes());
+            petTypeFormatter.parse("Fish", Locale.ENGLISH);
+        });
     }
 
     /**

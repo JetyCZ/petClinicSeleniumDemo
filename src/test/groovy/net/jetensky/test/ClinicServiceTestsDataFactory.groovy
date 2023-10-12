@@ -1,7 +1,6 @@
-package net.jetensky.test;
+package net.jetensky.test
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.PetClinicApplication;
@@ -10,11 +9,9 @@ import org.springframework.samples.petclinic.model.Pet
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.util.Creator;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = PetClinicApplication.class)
 class ClinicServiceTestsDataFactory {
 

@@ -1,8 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Colin But
  */
-@RunWith(SpringRunner.class)
 @WebMvcTest(VisitController.class)
 public class VisitControllerTests {
 
@@ -33,20 +32,20 @@ public class VisitControllerTests {
     @MockBean
     private ClinicService clinicService;
 
-    @Before
+    @BeforeEach
     public void init() {
         given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(new Pet());
     }
 
     @Test
-    public void testInitNewVisitForm() throws Exception {
+    void testInitNewVisitForm() throws Exception {
         mockMvc.perform(get("/owners/*/pets/{petId}/visits/new", TEST_PET_ID))
             .andExpect(status().isOk())
             .andExpect(view().name("pets/createOrUpdateVisitForm"));
     }
 
     @Test
-    public void testProcessNewVisitFormSuccess() throws Exception {
+    void testProcessNewVisitFormSuccess() throws Exception {
         mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
             .param("name", "George")
             .param("description", "Visit Description")
@@ -56,7 +55,7 @@ public class VisitControllerTests {
     }
 
     @Test
-    public void testProcessNewVisitFormHasErrors() throws Exception {
+    void testProcessNewVisitFormHasErrors() throws Exception {
         mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
             .param("name", "George")
         )

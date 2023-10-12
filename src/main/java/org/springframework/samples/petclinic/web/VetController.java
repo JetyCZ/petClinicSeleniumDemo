@@ -15,8 +15,8 @@
  */
 package org.springframework.samples.petclinic.web;
 
-import java.util.Map;
 
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.ClinicService;

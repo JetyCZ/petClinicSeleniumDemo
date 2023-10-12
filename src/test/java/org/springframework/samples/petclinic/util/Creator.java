@@ -1,10 +1,11 @@
 package org.springframework.samples.petclinic.util;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.validation.constraints.NotBlank;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -17,9 +18,8 @@ import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +59,7 @@ public class Creator implements ApplicationContextAware {
                 try {
                     field.setAccessible(true);
                     Object propValue = FieldUtils.readField(field, entity);
-                    final boolean notEmptyField = fieldHasAnnotation(field, NotEmpty.class);
+                    final boolean notEmptyField = fieldHasAnnotation(field, NotBlank.class);
                     boolean manyToOne = fieldHasAnnotation(field, ManyToOne.class);;
                     if ((propValue ==null) && (notEmptyField || manyToOne)) {
                         if (field.getType().isAssignableFrom(String.class)) {

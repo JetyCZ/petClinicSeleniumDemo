@@ -15,13 +15,14 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 
-import javax.persistence.*;
-import javax.validation.constraints.Digits;
+import jakarta.persistence.*;
 import java.util.*;
 
 /**
@@ -36,15 +37,15 @@ import java.util.*;
 @Table(name = "owners")
 public class Owner extends Person {
     @Column(name = "address")
-    @NotEmpty
+    @NotBlank
     private String address;
 
     @Column(name = "city")
-    @NotEmpty
+    @NotBlank
     private String city;
 
     @Column(name = "telephone")
-    @NotEmpty
+    @NotBlank
     @Digits(fraction = 0, integer = 10)
     private String telephone;
 
