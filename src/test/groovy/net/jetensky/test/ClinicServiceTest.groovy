@@ -41,8 +41,9 @@ class ClinicServiceTest {
 
     @Test
     void shouldFindVisitsByPetId() throws Exception {
-        Visit visit1 = creator.save(new Visit());
-        creator.save(new Visit(pet: visit1.pet));
+        def visit1 = creator.save(new Visit());
+        def visit2 = new Visit(pet: visit1.pet)
+        creator.save(visit2);
 
         def petId = visit1.pet.id
         Collection<Visit> visits = this.clinicService.findVisitsByPetId(petId);

@@ -52,7 +52,7 @@ public class Creator implements ApplicationContextAware {
         }
     }
 
-    public Object save(Object entity) {
+    public <T> T save(T entity) {
         try {
             Map props = PropertyUtils.describe(entity);
             List<Field> allFields = FieldUtils.getAllFieldsList(entity.getClass());
