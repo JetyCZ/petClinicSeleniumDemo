@@ -13,7 +13,7 @@ import org.springframework.samples.petclinic.util.Creator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = PetClinicApplication.class)
-class ClinicServiceTestsDataFactory {
+class ClinicServiceTest {
 
     @Autowired
     protected ClinicService clinicService;
